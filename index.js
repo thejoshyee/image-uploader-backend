@@ -4,6 +4,7 @@ const path = require('path')
 const cors = require("cors")
 const db = require('./models/sequelize');
 const uploadApi = require('./controllers/upload')
+require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 8081

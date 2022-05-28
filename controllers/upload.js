@@ -1,6 +1,5 @@
 var multer  = require('multer')
 const fs = require('fs')
-const res = require('express/lib/response')
 const path = require('path')
 
 const upload = multer({ dest: '/tmp/'})
