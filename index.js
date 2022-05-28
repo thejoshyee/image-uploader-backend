@@ -23,6 +23,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+app.use(express.static('build'))
+
+
 app.use('/uploads',express.static('uploads'))
 
 global.appRoot = __dirname
