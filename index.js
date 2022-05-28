@@ -1,11 +1,12 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const path = require('path')
-const app = express()
-const router = express.Router()
-const { Client } = require('pg')
-const multer = require("multer")
 const cors = require("cors")
+const db = require('./models/sequelize');
+const uploadApi = require('./controllers/upload')
+
+const app = express()
+const port = process.env.PORT || 8081
 
 
 const whitelist = ["http://localhost:3000"]
@@ -22,29 +23,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
-
 app.use('/uploads',express.static('uploads'))
 
-// load the routes
-require('./routes/image_routes.js')(app);
+global.appRoot = __dirname
 
-// app.use(function (err, req, res, next) {
-//     if (err instanceof multer.MulterError) {
-//         res.statusCode = 400
-//         res.send({ code: err.code })
-//         console.log("error bro")
-//     } else if(err) {
-//         if (err.message === "FILE_MISSING") {
-//             res.statusCode = 400
-//             res.send({ code: "FILE_MISSING"})
-//         } else {
-//             res.statusCode = 500
-//             res.send({ code: "GENERIC_ERROR" })
-//         }
-//     }
-// })
+app.use(bodyParser.json())
 
-const server = app.listen(8081, () => {
-    const PORT = server.address().port
-    console.log("App started at http://localhost:%s", PORT)
-})
+uploadApi(app,db)
+
+app.listen(port, () => console.log(`Application started on Port ${port}.`))
