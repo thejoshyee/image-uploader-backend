@@ -4,21 +4,22 @@ const path = require('path')
 
 const upload = multer({ dest: '/tmp/'})
 
-  module.exports = (app, db) => {
-    app.get( "/upload_file", (req, res) =>
-        db.Upload.findAll({raw: true})
+
+module.exports = (app, db) => {
+    app.get( "/categories", (req, res) =>
+        db.Category.findAll({raw: true})
             .then( (result) => res.json(result) )
     );
 
-    app.post('/upload_file', upload.single('file'), (req,res) => {
-        const file = global.appRoot + '/uploads/' + req.file.filename + path.extname(req.file.originalname);
+    app.post("/categories", upload.single('file'), (req,res) => {
+        const file = global.appRoot + '/uploads/' + req.file.filename;
         fs.rename(req.file.path, file, function(err) {
             if (err) {
                 console.log(err);
                 res.send(500);
             } 
             else {
-                  db.Upload.create({
+                  db.Category.create({
                         name: req.body.name,
                         description: req.body.description,
                         poster : req.file.filename
@@ -30,5 +31,3 @@ const upload = multer({ dest: '/tmp/'})
           });
     })
 }
-
-

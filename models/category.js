@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('upload', {
+    return sequelize.define('category', {
         id: {
           type: DataTypes.INTEGER,
           primaryKey: true,

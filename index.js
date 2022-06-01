@@ -3,11 +3,11 @@ const bodyParser = require("body-parser")
 const path = require('path')
 const cors = require("cors")
 const db = require('./models/sequelize');
-const uploadApi = require('./controllers/upload')
+const categoryApi = require('./controllers/category');
 require('dotenv').config()
 
 const app = express()
-const port = process.env.PORT || 8081
+const port = process.env.PORT || 5433
 
 
 const whitelist = ["http://localhost:3000"]
@@ -33,6 +33,7 @@ global.appRoot = __dirname
 
 app.use(bodyParser.json())
 
-uploadApi(app,db)
+categoryApi(app,db)
+
 
 app.listen(port, () => console.log(`Application started on Port ${port}.`))
