@@ -7,10 +7,10 @@ const categoryApi = require('./controllers/category');
 require('dotenv').config()
 
 const app = express()
-const port = process.env.PORT || 5433
+const port = process.env.PORT || 8088
 
 
-const whitelist = ["http://localhost:3000"]
+const whitelist = ["http://localhost:8088"]
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {

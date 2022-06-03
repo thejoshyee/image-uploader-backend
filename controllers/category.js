@@ -12,7 +12,7 @@ module.exports = (app, db) => {
     );
 
     app.post("/categories", upload.single('file'), (req,res) => {
-        const file = global.appRoot + '/uploads/' + req.file.filename;
+        const file = global.appRoot + '/uploads/' + req.file.filename + path.extname(req.file.originalname);
         fs.rename(req.file.path, file, function(err) {
             if (err) {
                 console.log(err);
