@@ -29,6 +29,10 @@ app.use(express.static(path.join(__dirname, 'build')))
 
 app.use('/uploads',express.static('uploads'))
 
+app.get("*", async (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"))
+})
+
 global.appRoot = __dirname
 
 app.use(bodyParser.json())
