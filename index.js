@@ -7,10 +7,10 @@ const categoryApi = require('./controllers/category');
 require('dotenv').config()
 
 const app = express()
-const port = process.env.PORT || 8088
+const port = process.env.PORT || 8000
 
 
-const whitelist = ["http://localhost:8088"]
+const whitelist = [`http://localhost:${port}`]
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -24,14 +24,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
-// app.use(express.static('build'))
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static('build'))
+// app.use(express.static(path.join(__dirname, './build')))
 
 app.use('/uploads',express.static('uploads'))
-
-app.get("*", async (req, res) => {
-    res.sendFile(path.join(__dirname, "build", "index.html"))
-})
 
 global.appRoot = __dirname
 
