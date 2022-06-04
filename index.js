@@ -9,8 +9,7 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 8000
 
-
-const whitelist = ["http://45.79.70.225"]
+const whitelist = ["http://localhost:8000"]
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
@@ -33,7 +32,6 @@ global.appRoot = __dirname
 
 app.use(bodyParser.json())
 
-categoryApi(app,db)
-
+categoryApi(app, db)
 
 app.listen(port, () => console.log(`Application started on Port ${port}.`))
