@@ -10,7 +10,7 @@ const app = express()
 const port = process.env.PORT || 8000
 
 
-const whitelist = [`${process.env.BACKEND_SERVER}`]
+const whitelist = ["http://45.79.70.225"]
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
