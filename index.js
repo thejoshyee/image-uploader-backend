@@ -9,7 +9,7 @@ require('dotenv').config()
 const app = express()
 const port = process.env.PORT || 8000
 
-const whitelist = ["http://localhost:8000"]
+const whitelist = ["https://murmuring-ridge-82620.herokuapp.com"]
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
