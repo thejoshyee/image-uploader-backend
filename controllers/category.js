@@ -4,14 +4,49 @@ let AWS = require('aws-sdk')
 const fileUpload = require('express-fileupload')
 let Buffer = require('buffer').Buffer
 
+
+const generateGetUrl = (Key) => {
+    const s3 = new AWS.S3()
+    const Bucket = process.env.BUCKET
+
+    return new Promise((resolve, reject) => {
+        const params = {
+            Bucket,
+            Key,
+            Expires: 120
+        }
+        // operation in this case is getObject
+        s3.getSignedUrl('getObject', params, (err, url) => {
+          if (err) {
+            reject(err);
+          } else {
+            // If there is no errors we will send back the pre-signed GET URL
+            resolve(url);
+          }
+        });
+      });
+}
+
+
 module.exports = (app, db) => {
 
     app.use(fileUpload())
 
-    app.get( "/categories", (req, res) =>
-        db.Category.findAll({raw: true})
-            .then( (result) => res.json(result) )
-    );
+    // GET URL
+    app.get("/generate-get-url", (req, res) => {
+
+        const { Key } = req.query
+
+        generateGetUrl(Key)
+            .then(getURL => {
+                res.type("image/jpeg")
+                res.send(getURL)
+            })
+            .catch(err => {
+                res.send(err)
+            })
+
+    });
 
     app.post("/categories", async (req,res) => {
 
@@ -22,7 +57,6 @@ module.exports = (app, db) => {
                 })
 
                 const s3 = new AWS.S3()
-                console.log(req.files)
                 const fileContent = Buffer.from(req.files.file.data, 'binary')
                 
 
