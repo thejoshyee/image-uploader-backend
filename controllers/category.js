@@ -32,8 +32,12 @@ module.exports = (app, db) => {
 
     app.use(fileUpload())
 
+    app.get('/test', (req, res) => {
+        res.send("hello test")
+    })
+
     // GET URL
-    app.post("/generate-get-url/", (req, res) => {
+    app.post("/generate-get-url", (req, res) => {
 
         const { Key } = req.query
 
@@ -48,7 +52,7 @@ module.exports = (app, db) => {
 
     });
 
-    app.post("/categories/", async (req,res) => {
+    app.post("/categories", async (req,res) => {
 
                 AWS.config.update({
                     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
