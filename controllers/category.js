@@ -43,7 +43,8 @@ module.exports = (app, db) => {
     // GET URL
     app.get("/generate-get-url", (req, res) => {
 
-        const Key = req.query.Key
+        const Key = req.query.key
+
         generateGetUrl(Key)
             .then(getURL => {
                 res.type("image/jpeg")
