@@ -43,7 +43,7 @@ module.exports = (app, db) => {
     // GET URL
     app.get("/generate-get-url", (req, res) => {
 
-        const Key = req.query.key
+        const Key = req.query.Key
 
         generateGetUrl(Key)
             .then(getURL => {
