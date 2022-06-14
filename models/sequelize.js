@@ -26,10 +26,14 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.USER_NAME, pro
 const Category = CategoryModel(sequelize, Sequelize);
 
 
-sequelize.sync() 
+sequelize
+  .authenticate()
   .then(() => {
-    console.log(`Database & tables created!`)
-});
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 module.exports = {
     Category
