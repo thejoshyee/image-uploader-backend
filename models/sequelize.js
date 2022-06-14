@@ -12,13 +12,13 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.USER_NAME, pro
         rejectUnauthorized: false // This line will fix new error
       }
     },
-    // pool: {
-    //   max: 15,
-    //   min: 5,
-    //   idle: 20000,
-    //   evict: 15000,
-    //   acquire: 30000
-    // },
+    pool: {
+      max: 15,
+      min: 5,
+      idle: 20000,
+      evict: 15000,
+      acquire: 30000
+    },
   })
 
 
