@@ -5,41 +5,45 @@ const fileUpload = require('express-fileupload')
 let Buffer = require('buffer').Buffer
 
 
-const generateGetUrl = (Key) => {
-    const s3 = new AWS.S3()
-    const Bucket = process.env.BUCKET
 
-    return new Promise((resolve, reject) => {
-        const params = {
-            Bucket,
-            Key,
-            Expires: 120
-        }
-        // operation in this case is getObject
-        s3.getSignedUrl('getObject', params, (err, url) => {
-          if (err) {
-            reject(err);
-          } else {
-            // If there is no errors we will send back the pre-signed GET URL
-            resolve(url);
-          }
-        });
-      });
-}
 
 
 module.exports = (app, db) => {
 
     app.use(fileUpload())
 
+    
+    const generateGetUrl = (Key) => {
+        const s3 = new AWS.S3()
+        const Bucket = process.env.BUCKET
+    
+        return new Promise((resolve, reject) => {
+            const params = {
+                Bucket,
+                Key,
+                Expires: 500
+            }
+            // operation in this case is getObject
+            s3.getSignedUrl('getObject', params, (err, url) => {
+              if (err) {
+                reject(err);
+              } else {
+                // If there is no errors we will send back the pre-signed GET URL
+                resolve(url);
+              }
+            });
+          });
+    }
+
+
     app.get('/test', (req, res) => {
         res.send("hello test")
     })
 
     // GET URL
-    app.post("/generate-get-url", (req, res) => {
+    app.get("/generate-get-url", (req, res) => {
 
-        const { Key } = req.query
+        const Key = req.query
 
         generateGetUrl(Key)
             .then(getURL => {
@@ -63,10 +67,10 @@ module.exports = (app, db) => {
                 const s3 = new AWS.S3()
                 const fileContent = Buffer.from(req.files.file.data, 'binary')
                 
-
+                const Key = req.files.file.name
                 const params = {
                     Bucket: 'image-uploads-storage',
-                    Key: req.files.file.name,
+                    Key: Key,
                     Body: fileContent,
                 }
                 
