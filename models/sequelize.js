@@ -26,7 +26,7 @@ const sequelize = new Sequelize(process.env.DATABASE, process.env.USER_NAME, pro
 const Category = CategoryModel(sequelize, Sequelize);
 
 
-sequelize.sync({ force: true }) 
+sequelize.sync() 
   .then(() => {
     console.log(`Database & tables created!`)
 });
